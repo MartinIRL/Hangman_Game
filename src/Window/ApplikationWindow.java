@@ -4,6 +4,8 @@ package Window;
 
 
 
+import Logic.SupportMethods;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.AbstractDocument;
@@ -12,11 +14,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.beans.PropertyChangeListener;
 import java.text.ParseException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Flow;
 
-public class ApplikationWindow  implements  ActionListener{
+public class ApplikationWindow implements SupportMethods {
 
 
 
@@ -38,13 +41,15 @@ public class ApplikationWindow  implements  ActionListener{
 
 
     //Textfield
-    private JFormattedTextField f1;
+    private JTextField f1;
     private JTextArea f2;
 
     //other variables
+
     Set<Character> listOfCharacters;
     private String options;
     private int numberOfPlayers;
+    private String inputJTextfield;
 
     //Klasse
     private GameWindow paintGame;
@@ -60,6 +65,7 @@ public class ApplikationWindow  implements  ActionListener{
 
     private void setUpInit(){
 
+        listOfCharacters = new HashSet<>();
         paintGame = new GameWindow();
         setSelectionAndVariables();
 
@@ -87,14 +93,36 @@ public class ApplikationWindow  implements  ActionListener{
         panel1 = new JPanel(gridLayout);
 
 
-        f1 = new JFormattedTextField();
-        f1.setColumns(20);
-
+        f1 = new JTextField();
+        f1.setColumns(1);
         f2 = new JTextArea();
+        f2.setEditable(false);
+        f2.setColumns(20);
 
 
-        jButton1 = new JButton("New Game");
-        jButton2 = new JButton("Exit");
+        //Aktion  => Eingabe
+        jButton1 = new JButton("Eingabe");
+        jButton1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(e.getActionCommand().equals("Eingabe")){
+                    inputJTextfield = f1.getText();
+                    //abfrage einbauen
+                    listOfCharacters.add(inputJTextfield.charAt(0));
+                    f2.setText(listOfCharacters.toString());
+                    f1.setText("");
+
+                }
+            }
+        });
+
+
+
+        //Aktion => Neues Spiel mit newGame() j/n mit jOption zuvor ?
+        jButton2 = new JButton("New Game");
+
+
+
 
         panel1.add(f1);
         panel1.add(f2);
@@ -129,7 +157,6 @@ public class ApplikationWindow  implements  ActionListener{
         options = JOptionPane.showInputDialog(null,"Pick the Topic: \n 1. Plants \n 2. Names \n 3. Games \n 4. Placeholder...");
         try {
             int numberOfTopic = Integer.parseInt(options);
-            //paintGame.setNumberOfFigure();
             if (numberOfTopic == 4) {
                 System.exit(0);
             }
@@ -147,20 +174,32 @@ public class ApplikationWindow  implements  ActionListener{
 
 
 
-    //Resett evry.
+    // restart
     private void newGame(){
 
 
     }
-
-
-
+    /**
+     * return true if character exists in String
+     * @param input: eingabe aus Jtextfield, word => word aus Themen-Klasse
+     * @return true
+     */
     @Override
-    public void actionPerformed(ActionEvent e) {
-
-
-
+    public boolean isCharacerInString(String input, String word) {
+        char [] chars = word.toCharArray();
+        char currentChar = input.charAt(0);
+        for (int i = 0; i < chars.length; i++) {
+            if(chars[i] == currentChar){
+                return true;
+            }
+        }
+        return false;
     }
+
+
+
+
+
 
 
 

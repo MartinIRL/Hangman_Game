@@ -12,6 +12,7 @@ public class ApplikationMain {
             public void run() {
                 new ApplikationWindow();
             }
+
         });
 
     }
