@@ -1,6 +1,9 @@
 package Window;
 
+import Graphic.Drawing;
 import Graphic.Hangman_Drawing_Canvas;
+import Graphic.Sun_Drawing_Canvas;
+import Graphic.Tree_Drawing_Canvas;
 
 
 import javax.swing.*;
@@ -11,7 +14,9 @@ import java.beans.PropertyChangeListener;
 
 public class GameWindow extends JPanel implements PropertyChangeListener{
 
-    private final Hangman_Drawing_Canvas theHangman;
+    private final Drawing drawHangman = new Hangman_Drawing_Canvas();
+    private final Drawing drawSun = new Sun_Drawing_Canvas();
+    private final Drawing drawTree = new Tree_Drawing_Canvas();
 
 
     private int numberOfFigure;
@@ -27,7 +32,7 @@ public class GameWindow extends JPanel implements PropertyChangeListener{
      * Consturctor
      */
     public GameWindow(){
-        theHangman = new Hangman_Drawing_Canvas();
+
     }
 
     /**
@@ -59,10 +64,13 @@ public class GameWindow extends JPanel implements PropertyChangeListener{
 
         switch(numberOfFigure){
 
-            case 1: theHangman.drawHangman(g2d,this.getWidth(),this.getHeight()/2,getCurrentAttempts());
+            case 1: drawHangman.drawHangman(g2d,this.getWidth(),this.getHeight()/2,getCurrentAttempts());
                 break;
 
-            case 2, 3:
+                    //placeholder
+            case 2: drawSun.drawHangman(g2d,this.getWidth(),this.getHeight()/2,getCurrentAttempts());
+
+            case 3: drawTree.drawHangman(g2d,this.getWidth(),this.getHeight()/2,getCurrentAttempts());
                 break;
 
             default:
